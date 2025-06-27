@@ -167,3 +167,4 @@ C:\Users\user\Desktop\Projects\t\TunavBackend\obj\Debug\net8.0\refint\TunavBacke
 C:\Users\user\Desktop\Projects\t\TunavBackend\obj\Debug\net8.0\TunavBackend.pdb
 C:\Users\user\Desktop\Projects\t\TunavBackend\obj\Debug\net8.0\TunavBackend.genruntimeconfig.cache
 C:\Users\user\Desktop\Projects\t\TunavBackend\obj\Debug\net8.0\ref\TunavBackend.dll
+C:\Users\user\Desktop\Projects\t\TunavBackend\obj\Debug\net8.0\TunavBackend.sourcelink.json
