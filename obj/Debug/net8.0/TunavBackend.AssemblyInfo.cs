@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TunavBackend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+14955c60de8c39b0629239a24d00bc3ebd41a58c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3f4dabd67638e3e4a030a9e8ecc73b91150fa2be")]
 [assembly: System.Reflection.AssemblyProductAttribute("TunavBackend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TunavBackend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

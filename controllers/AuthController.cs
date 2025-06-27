@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TunavBackend.Models;
 using TunavBackend.Models.Auth;
-using TunavBackend.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Mail;
 using System.Net;
