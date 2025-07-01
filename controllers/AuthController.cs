@@ -63,16 +63,17 @@ namespace TunavBackend.Controllers
             await _context.SaveChangesAsync();
 
             try
-            {
+            {  var emailsmtp = _configuration["Smtp:Email"];
+               var passwordsmtp = _configuration["Smtp:Password"];
                 using var smtp = new SmtpClient("smtp.gmail.com", 587)
                 {
-                    Credentials = new NetworkCredential("ton_email@gmail.com", "mot_de_passe_application"),
+                    Credentials = new NetworkCredential(emailsmtp,passwordsmtp ),
                     EnableSsl = true
                 };
 
                 await smtp.SendMailAsync(new MailMessage
                 {
-                    From = new MailAddress("ton_email@gmail.com", "Tunav"),
+                    From = new MailAddress("test2003test03@gmail.com", "Tunav"),
                     To = { request.Email },
                     Subject = "Inscription réussie - mot de passe",
                     Body = $"Bienvenue {request.Nom},\n\nVoici votre mot de passe : {password}\n\nTunav équipe."
@@ -86,7 +87,7 @@ namespace TunavBackend.Controllers
             return Ok(new { message = "Inscription réussie, mot de passe envoyé par mail" });
         }
 
-        private string GenerateJwtToken(User user)
+       private string GenerateJwtToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]);
@@ -95,7 +96,8 @@ namespace TunavBackend.Controllers
             {
                 new Claim(ClaimTypes.Name, user.Nom),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.Role.ToString())
+                new Claim(ClaimTypes.Role, user.Role.ToString()),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()) 
             };
 
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -108,12 +110,7 @@ namespace TunavBackend.Controllers
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
+
     }
 }
 
-// Ajoute dans appsettings.json
-/*
-"Jwt": {
-  "Key": "TRES_LONGUE_CLE_SECRETE_PERSONNALISEE"
-}
-*/

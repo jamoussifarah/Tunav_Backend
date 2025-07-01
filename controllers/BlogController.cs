@@ -27,18 +27,20 @@ namespace TunavBackend.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Blog>> Create(Blog item)
+        [RequestSizeLimit(100_000_000)]
+        public async Task<ActionResult<Blog>> Create([FromForm] BlogCreateRequest request)
         {
-            var created = await _service.AddAsync(item);
+            var created = await _service.AddAsync(request);
             return CreatedAtAction(nameof(Get), new { id = created.Id }, created);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, Blog item)
+        [RequestSizeLimit(100_000_000)]
+        public async Task<IActionResult> Update(int id, [FromForm] BlogUpdateRequest request)
         {
-            if (id != item.Id) return BadRequest();
-            var ok = await _service.UpdateAsync(item);
-            return ok ? NoContent() : NotFound();
+            var result = await _service.UpdateAsync(id, request);
+            if (!result) return NotFound();
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
@@ -47,5 +49,15 @@ namespace TunavBackend.Controllers
             var ok = await _service.DeleteAsync(id);
             return ok ? NoContent() : NotFound();
         }
-    }
+        
+        [HttpPost("{id}/like")]
+        public async Task<IActionResult> IncrementLike(int id)
+        {
+            var blog = await _service.IncrementLikeAsync(id);
+            if (blog == null)
+                return NotFound();
+
+            return Ok(new { message = "Like ajouté", likes = blog.Likes });
+        }
+ }
 }

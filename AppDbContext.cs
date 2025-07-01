@@ -11,5 +11,9 @@ namespace TunavBackend
         public DbSet<User> Users { get; set; }
         public DbSet<Franchise> Franchises { get; set; }
         public DbSet<Blog> Blogs { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+     
+
+
     }
 }

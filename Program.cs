@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using TunavBackend;
 using TunavBackend.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,12 +15,47 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<FranchiseService>();
 builder.Services.AddScoped<BlogService>();
 
+// 🔐 JWT Configuration
+var jwtKey = builder.Configuration["Jwt:Key"];
+var keyBytes = Encoding.UTF8.GetBytes(jwtKey);
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
+            ClockSkew = TimeSpan.Zero // optionnel: supprime le délai toléré pour expiration
+        };
+    });
+
 // 🔧 Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// 🔧 Contrôleurs
-builder.Services.AddControllers(); // 
+// 🔧 Contrôleurs avec options JSON pour ignorer les cycles
+builder.Services.AddControllers()
+    .AddJsonOptions(x =>
+    {
+        x.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+        x.JsonSerializerOptions.WriteIndented = true;
+    });
+
+// 🔧 Configuration CORS (avant builder.Build)
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularDevClient",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200") 
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
 
 // 2. Build de l'application
 var app = builder.Build();
@@ -30,8 +68,14 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 
-// Active le routage vers les contrôleurs
+// Appliquer CORS AVANT authentication et authorization
+app.UseCors("AllowAngularDevClient");
+
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapControllers();
 
 // Optionnel : test API existante

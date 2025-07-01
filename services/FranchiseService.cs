@@ -13,10 +13,10 @@ namespace TunavBackend.Services
         }
 
         public async Task<IEnumerable<Franchise>> GetAllAsync() =>
-            await _context.Franchises.Include(f => f.User).ToListAsync();
+            await _context.Franchises.ToListAsync();
 
         public async Task<Franchise?> GetByIdAsync(int id) =>
-            await _context.Franchises.Include(f => f.User).FirstOrDefaultAsync(f => f.Id == id);
+            await _context.Franchises.FirstOrDefaultAsync(f => f.Id == id);
 
         public async Task<Franchise> AddAsync(Franchise franchise)
         {
