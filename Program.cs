@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.FileProviders;
+using TunavBackend.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -89,6 +90,13 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<AppDbContext>();
+    ProductSeeder.Initialize(context);
+}
 // Optionnel : test API existante
 var summaries = new[]
 {
