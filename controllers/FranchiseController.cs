@@ -47,5 +47,6 @@ namespace TunavBackend.Controllers
             var ok = await _service.DeleteAsync(id);
             return ok ? NoContent() : NotFound();
         }
+        //test
     }
 }
