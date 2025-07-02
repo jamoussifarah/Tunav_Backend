@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TunavBackend;
 
@@ -11,9 +12,11 @@ using TunavBackend;
 namespace TunavBackend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250701170929_InitProduitAvecDevis")]
+    partial class InitProduitAvecDevis
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,28 +81,6 @@ namespace TunavBackend.Migrations
                     b.HasIndex("ProduitAvecDevisId");
 
                     b.ToTable("CaracteristiquesProduitAvecDevis");
-                });
-
-            modelBuilder.Entity("TunavBackend.Models.CaracteristiqueProduitSansDevis", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ProduitSansDevisId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Texte")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProduitSansDevisId");
-
-                    b.ToTable("CaracteristiquesProduitSansDevis");
                 });
 
             modelBuilder.Entity("TunavBackend.Models.Franchise", b =>
@@ -181,39 +162,6 @@ namespace TunavBackend.Migrations
                     b.ToTable("ProduitsAvecDevis");
                 });
 
-            modelBuilder.Entity("TunavBackend.Models.ProduitSansDevis", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Categorie")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImagePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Prix")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Titre")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ProduitsSansDevis");
-                });
-
             modelBuilder.Entity("TunavBackend.Models.Tag", b =>
                 {
                     b.Property<int>("Id")
@@ -284,17 +232,6 @@ namespace TunavBackend.Migrations
                     b.Navigation("Produit");
                 });
 
-            modelBuilder.Entity("TunavBackend.Models.CaracteristiqueProduitSansDevis", b =>
-                {
-                    b.HasOne("TunavBackend.Models.ProduitSansDevis", "Produit")
-                        .WithMany("Caracteristiques")
-                        .HasForeignKey("ProduitSansDevisId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Produit");
-                });
-
             modelBuilder.Entity("TunavBackend.Models.Franchise", b =>
                 {
                     b.HasOne("TunavBackend.Models.User", null)
@@ -319,11 +256,6 @@ namespace TunavBackend.Migrations
                 });
 
             modelBuilder.Entity("TunavBackend.Models.ProduitAvecDevis", b =>
-                {
-                    b.Navigation("Caracteristiques");
-                });
-
-            modelBuilder.Entity("TunavBackend.Models.ProduitSansDevis", b =>
                 {
                     b.Navigation("Caracteristiques");
                 });

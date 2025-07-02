@@ -12,8 +12,10 @@ namespace TunavBackend
         public DbSet<Franchise> Franchises { get; set; }
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<Tag> Tags { get; set; }
-     
-
+        public DbSet<ProduitAvecDevis> ProduitsAvecDevis { get; set; }
+        public DbSet<CaracteristiqueProduitAvecDevis> CaracteristiquesProduitAvecDevis { get; set; }
+        public DbSet<ProduitSansDevis> ProduitsSansDevis { get; set; }
+        public DbSet<CaracteristiqueProduitSansDevis> CaracteristiquesProduitSansDevis { get; set; }
 
     }
 }

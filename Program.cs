@@ -4,6 +4,7 @@ using TunavBackend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<FranchiseService>();
 builder.Services.AddScoped<BlogService>();
+builder.Services.AddScoped<ProduitAvecDevisService>();
+builder.Services.AddScoped<ProduitSansDevisService>();
+
+
 
 // 🔐 JWT Configuration
 var jwtKey = builder.Configuration["Jwt:Key"];
@@ -48,10 +53,10 @@ builder.Services.AddControllers()
 // 🔧 Configuration CORS (avant builder.Build)
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAngularDevClient",
+    options.AddPolicy("AllowAngular",
         policy =>
         {
-            policy.WithOrigins("http://localhost:4200") 
+            policy.WithOrigins("http://localhost:4200")
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
@@ -69,9 +74,15 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(builder.Environment.WebRootPath, "uploads")),
+    RequestPath = "/uploads"
+});
 
 // Appliquer CORS AVANT authentication et authorization
-app.UseCors("AllowAngularDevClient");
+app.UseCors("AllowAngular");
 
 app.UseAuthentication();
 app.UseAuthorization();
