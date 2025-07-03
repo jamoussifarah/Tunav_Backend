@@ -14,5 +14,7 @@ namespace TunavBackend.Models
         public Role Role { get; set; }
         public ICollection<Franchise>? Franchises { get; set; }  
         public ICollection<Blog>? Blogs { get; set; }  
+        public ICollection<ProduitSansDevis>? ProduitsSansDevis { get; set; }
+    
     }
 }

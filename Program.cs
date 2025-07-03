@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.FileProviders;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // 1. Ajouter les services AVANT builder.Build()
@@ -17,6 +16,7 @@ builder.Services.AddScoped<FranchiseService>();
 builder.Services.AddScoped<BlogService>();
 builder.Services.AddScoped<ProduitAvecDevisService>();
 builder.Services.AddScoped<ProduitSansDevisService>();
+builder.Services.AddScoped<DevisService>();
 
 
 
