@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TunavBackend.Models;
+using TunavBackend.Seeders;
 
 namespace TunavBackend
 {
@@ -17,5 +18,11 @@ namespace TunavBackend
         public DbSet<ProduitSansDevis> ProduitsSansDevis { get; set; }
         public DbSet<CaracteristiqueProduitSansDevis> CaracteristiquesProduitSansDevis { get; set; }
 
+        public DbSet<Devis> Devis { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            ProductsSeeder.Seed(modelBuilder);
+        }
     }
 }

@@ -33,12 +33,12 @@ namespace TunavBackend.Services
                 Description = request.Description,
                 Categorie = request.Categorie,
                 Prix = request.Prix,
-                ImagePath = imagePath
+                ImagePath = imagePath,
+                UserId = request.UserId
             };
 
             _context.ProduitsSansDevis.Add(produit);
             await _context.SaveChangesAsync();
-
             foreach (var carac in request.Caracteristiques)
             {
                 _context.CaracteristiquesProduitSansDevis.Add(new CaracteristiqueProduitSansDevis

@@ -17,11 +17,13 @@ namespace TunavBackend.Services
         public async Task<IEnumerable<ProduitAvecDevis>> GetAllAsync() =>
             await _context.ProduitsAvecDevis
                           .Include(p => p.Caracteristiques)
+                          .Include(p => p.Devis)
                           .ToListAsync();
 
         public async Task<ProduitAvecDevis?> GetByIdAsync(int id) =>
             await _context.ProduitsAvecDevis
                           .Include(p => p.Caracteristiques)
+                          .Include(p => p.Devis)
                           .FirstOrDefaultAsync(p => p.Id == id);
 
         public async Task<ProduitAvecDevis> AddAsync(ProduitAvecDevisCreateRequest request)
@@ -93,6 +95,7 @@ namespace TunavBackend.Services
         {
             var produit = await _context.ProduitsAvecDevis
                                         .Include(p => p.Caracteristiques)
+                                        .Include(p => p.Devis)
                                         .FirstOrDefaultAsync(p => p.Id == id);
             if (produit == null) return false;
 
@@ -100,6 +103,7 @@ namespace TunavBackend.Services
                 DeleteImage(produit.ImagePath);
 
             _context.CaracteristiquesProduitAvecDevis.RemoveRange(produit.Caracteristiques);
+            _context.Devis.RemoveRange(produit.Devis ?? new List<Devis>());
             _context.ProduitsAvecDevis.Remove(produit);
             await _context.SaveChangesAsync();
 

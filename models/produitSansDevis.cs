@@ -16,6 +16,9 @@ namespace TunavBackend.Models
         public string Prix { get; set; } = string.Empty;
 
         public ICollection<CaracteristiqueProduitSansDevis> Caracteristiques { get; set; } = new List<CaracteristiqueProduitSansDevis>();
+
+        // ✅ Clé étrangère vers User, sans navigation
+        public int UserId { get; set; }
     }
 
     public class CaracteristiqueProduitSansDevis
@@ -39,6 +42,9 @@ namespace TunavBackend.Models
         public string Prix { get; set; } = string.Empty;
         public List<string> Caracteristiques { get; set; } = new();
         public IFormFile? Image { get; set; }
+
+        // ✅ Nécessaire pour lier au bon user
+        public int UserId { get; set; }
     }
 
     public class ProduitSansDevisUpdateRequest
