@@ -16,6 +16,8 @@ namespace TunavBackend.Models
         public string Prix { get; set; } = string.Empty;
 
         public ICollection<CaracteristiqueProduitSansDevis> Caracteristiques { get; set; } = new List<CaracteristiqueProduitSansDevis>();
+        public int UserId { get; set; }
+
     }
 
     public class CaracteristiqueProduitSansDevis

@@ -15,6 +15,7 @@ namespace TunavBackend.Models
         public string Categorie { get; set; } = string.Empty;
 
         public ICollection<CaracteristiqueProduitAvecDevis> Caracteristiques { get; set; } = new List<CaracteristiqueProduitAvecDevis>();
+        public ICollection<Devis>? Devis { get; set; }
     }
 
     public class CaracteristiqueProduitAvecDevis
