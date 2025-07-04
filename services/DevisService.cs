@@ -16,7 +16,10 @@ namespace TunavBackend.Services
             await _context.Devis.ToListAsync();
 
         public async Task<Devis?> GetByIdAsync(int id) =>
-            await _context.Devis.FindAsync(id);
+            await _context.Devis
+            .Include(d => d.produitDevis)
+            .Include(d => d.userDevis)
+            .FirstOrDefaultAsync(d => d.Id == id);
 
         public async Task<Devis> AddAsync(DevisCreateRequest request)
         {
@@ -65,5 +68,7 @@ namespace TunavBackend.Services
             await _context.SaveChangesAsync();
             return true;
         }
+        
     }
+    
 }
