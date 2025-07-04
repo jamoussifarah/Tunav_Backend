@@ -17,8 +17,9 @@ namespace TunavBackend.Models
         public int Quantite { get; set; }
 
         public int UserId { get; set; }
-
+        public User? userDevis { get; set; }
         public int ProduitAvecDevisId { get; set; }
+        public  ProduitAvecDevis? produitDevis { get; set; }
     }
 
     public class DevisCreateRequest
