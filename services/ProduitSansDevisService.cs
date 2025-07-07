@@ -33,7 +33,8 @@ namespace TunavBackend.Services
                 Description = request.Description,
                 Categorie = request.Categorie,
                 Prix = request.Prix,
-                ImagePath = imagePath
+                ImagePath = imagePath,
+                UserId = request.userId
             };
 
             _context.ProduitsSansDevis.Add(produit);

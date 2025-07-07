@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TunavBackend.Models;
 using TunavBackend.Services;
 
 namespace TunavBackend.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ProduitsSansDevisController : ControllerBase
