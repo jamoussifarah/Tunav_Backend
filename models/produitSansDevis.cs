@@ -41,6 +41,7 @@ namespace TunavBackend.Models
         public string Prix { get; set; } = string.Empty;
         public List<string> Caracteristiques { get; set; } = new();
         public IFormFile? Image { get; set; }
+        public int userId { get; set; }
     }
 
     public class ProduitSansDevisUpdateRequest

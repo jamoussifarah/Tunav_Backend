@@ -1,9 +1,10 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TunavBackend.Models;
 using TunavBackend.Services;
 
 namespace TunavBackend.Controllers
-{
+{   [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class BlogController : ControllerBase
