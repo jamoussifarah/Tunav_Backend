@@ -7,7 +7,7 @@
 namespace TunavBackend.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateSeedProduct : Migration
+    public partial class SeedUpdateProductsWithMedWatch : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,13 +21,13 @@ namespace TunavBackend.Migrations
                     { 2, "IOT", "Solution RFID intelligente pour la gestion et l’identification automatisée des actifs.", "/assets/img/tagit_rfid.png", "TAGIT RFID" },
                     { 3, "IOT", "Système IoT complet pour le suivi énergétique et la gestion des bâtiments intelligents.", "/assets/img/easy_360.png", "EASY 360" },
                     { 4, "IOT", "Système IoT complet pour le suivi énergétique et la gestion des bâtiments intelligents.", "/assets/img/FUEL_RESCUE.png", "FUEL RESCUE" },
-                    { 5, "IOT", "Notre smartwatch allie performance et bien-être dans un design moderne et connecté. Équipée d’un écran tactile haute résolution...", "/assets/img/MedWatch.jpg", "MED WATCH" }
+                    { 5, "GPS TRACKER", "Notre smartwatch allie performance et bien-être dans un design moderne et connecté. Équipée d’un écran tactile haute résolution...", "/assets/img/MedWatch.png", "MED WATCH" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "Nom", "Password", "Role" },
-                values: new object[] { 1, "admin@Tunav.com", "admin1", "TUNAV_ADMIN_123", 0 });
+                values: new object[] { 1, "test@Tunav.com", "admin1", "TUNAV_ADMIN_123", 1 });
 
             migrationBuilder.InsertData(
                 table: "CaracteristiquesProduitAvecDevis",
@@ -95,11 +95,32 @@ namespace TunavBackend.Migrations
                     { 25, 8, "GRPS" },
                     { 26, 8, "SMS - TRAILER SMART LOCK" }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Devis_UserId",
+                table: "Devis",
+                column: "UserId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Devis_Users_UserId",
+                table: "Devis",
+                column: "UserId",
+                principalTable: "Users",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Devis_Users_UserId",
+                table: "Devis");
+
+            migrationBuilder.DropIndex(
+                name: "IX_Devis_UserId",
+                table: "Devis");
+
             migrationBuilder.DeleteData(
                 table: "CaracteristiquesProduitAvecDevis",
                 keyColumn: "Id",

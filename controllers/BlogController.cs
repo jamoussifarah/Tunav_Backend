@@ -17,6 +17,7 @@ namespace TunavBackend.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<Blog>>> GetAll() =>
             Ok(await _service.GetAllAsync());
 
@@ -50,7 +51,7 @@ namespace TunavBackend.Controllers
             var ok = await _service.DeleteAsync(id);
             return ok ? NoContent() : NotFound();
         }
-        
+        [AllowAnonymous]
         [HttpPost("{id}/like")]
         public async Task<IActionResult> IncrementLike(int id)
         {

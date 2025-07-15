@@ -10,9 +10,9 @@ namespace TunavBackend.Seeders
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = 1,
-                Email = "admin@Tunav.com",
+                Email = "test@Tunav.com",
                 Password = "TUNAV_ADMIN_123",
-                Role = 0,
+                Role = Models.Enums.Role.Administrateur,
                 Nom="admin1"
             });
             var produitsSansDevis = new List<ProduitSansDevis>
@@ -80,7 +80,7 @@ namespace TunavBackend.Seeders
                 new ProduitAvecDevis { Id = 2, Titre = "TAGIT RFID", Description = "Solution RFID intelligente pour la gestion et l’identification automatisée des actifs.", ImagePath = "/assets/img/tagit_rfid.png", Categorie = "IOT" },
                 new ProduitAvecDevis { Id = 3, Titre = "EASY 360", Description = "Système IoT complet pour le suivi énergétique et la gestion des bâtiments intelligents.", ImagePath = "/assets/img/easy_360.png", Categorie = "IOT" },
                 new ProduitAvecDevis { Id = 4, Titre = "FUEL RESCUE", Description = "Système IoT complet pour le suivi énergétique et la gestion des bâtiments intelligents.", ImagePath = "/assets/img/FUEL_RESCUE.png", Categorie = "IOT" },
-                new ProduitAvecDevis { Id = 5, Titre = "MED WATCH", Description = "Notre smartwatch allie performance et bien-être dans un design moderne et connecté. Équipée d’un écran tactile haute résolution...", ImagePath = "/assets/img/MedWatch.jpg", Categorie = "IOT" }
+                new ProduitAvecDevis { Id = 5, Titre = "MED WATCH", Description = "Notre smartwatch allie performance et bien-être dans un design moderne et connecté. Équipée d’un écran tactile haute résolution...", ImagePath = "/assets/img/MedWatch.png", Categorie = "IOT" }
             };
 
             var caracteristiquesAvecDevis = new List<CaracteristiqueProduitAvecDevis>
