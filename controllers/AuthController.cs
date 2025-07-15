@@ -30,7 +30,11 @@ namespace TunavBackend.Controllers
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
             if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.Password))
-                return Unauthorized(new { message = "Email ou mot de passe incorrect" });
+                return Unauthorized(new
+                {
+                    message = "Email ou mot de passe incorrect",
+
+                });
 
             var token = GenerateJwtToken(user);
 
@@ -38,7 +42,8 @@ namespace TunavBackend.Controllers
             {
                 Token = token,
                 Role = user.Role.ToString(),
-                Nom = user.Nom
+                Nom = user.Nom,
+                userId = user.Id
             });
         }
 
@@ -62,32 +67,32 @@ namespace TunavBackend.Controllers
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            try
-            {  var emailsmtp = _configuration["Smtp:Email"];
-               var passwordsmtp = _configuration["Smtp:Password"];
-                using var smtp = new SmtpClient("smtp.gmail.com", 587)
-                {
-                    Credentials = new NetworkCredential(emailsmtp,passwordsmtp ),
-                    EnableSsl = true
-                };
+            /* try
+             {  var emailsmtp = _configuration["Smtp:Email"];
+                var passwordsmtp = _configuration["Smtp:Password"];
+                 using var smtp = new SmtpClient("smtp.gmail.com", 587)
+                 {
+                     Credentials = new NetworkCredential(emailsmtp,passwordsmtp ),
+                     EnableSsl = true
+                 };
 
-                await smtp.SendMailAsync(new MailMessage
-                {
-                    From = new MailAddress("test2003test03@gmail.com", "Tunav"),
-                    To = { request.Email },
-                    Subject = "Inscription réussie - mot de passe",
-                    Body = $"Bienvenue {request.Nom},\n\nVoici votre mot de passe : {password}\n\nTunav équipe."
-                });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "Utilisateur créé mais échec d'envoi de mail", error = ex.Message });
-            }
+                 await smtp.SendMailAsync(new MailMessage
+                 {
+                     From = new MailAddress("test2003test03@gmail.com", "Tunav"),
+                     To = { request.Email },
+                     Subject = "Inscription réussie - mot de passe",
+                     Body = $"Bienvenue {request.Nom},\n\nVoici votre mot de passe : {password}\n\nTunav équipe."
+                 });
+             }
+             catch (Exception ex)
+             {
+                 return StatusCode(500, new { message = "Utilisateur créé mais échec d'envoi de mail", error = ex.Message });
+             }*/
 
-            return Ok(new { message = "Inscription réussie, mot de passe envoyé par mail" });
+            return Ok(new { message = "Inscription réussie, mot de passe envoyé par mail", mdp = password });
         }
 
-       private string GenerateJwtToken(User user)
+        private string GenerateJwtToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]);
@@ -100,17 +105,19 @@ namespace TunavBackend.Controllers
                 };
 
             var tokenDescriptor = new SecurityTokenDescriptor
-                {
-                    Subject = new ClaimsIdentity(claims),
-                    Expires = DateTime.UtcNow.AddHours(6),
-                    Issuer = _configuration["Jwt:Issuer"],  
-                    Audience = _configuration["Jwt:Audience"], 
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-                };
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.UtcNow.AddHours(6),
+                Issuer = _configuration["Jwt:Issuer"],
+                Audience = _configuration["Jwt:Audience"],
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
-                return tokenHandler.WriteToken(token);
-            }
+            return tokenHandler.WriteToken(token);
+        }
     }
+    
+    
 }
 

@@ -19,9 +19,10 @@ namespace TunavBackend
         public DbSet<CaracteristiqueProduitSansDevis> CaracteristiquesProduitSansDevis { get; set; }
         public DbSet<Devis> Devis { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-            {
-                base.OnModelCreating(modelBuilder);
-                ProductsSeeder.Seed(modelBuilder);
+        {
+            base.OnModelCreating(modelBuilder);
+            ProductsSeeder.Seed(modelBuilder);
+            BlogsSeeder.Seed(modelBuilder);
             }
 
 

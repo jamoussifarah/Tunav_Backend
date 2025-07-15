@@ -12,8 +12,8 @@ using TunavBackend;
 namespace TunavBackend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250703143539_UpdateSeedProduct")]
-    partial class UpdateSeedProduct
+    [Migration("20250715121518_SeedUpdateProductsWithMedWatch")]
+    partial class SeedUpdateProductsWithMedWatch
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -378,6 +378,8 @@ namespace TunavBackend.Migrations
 
                     b.HasIndex("ProduitAvecDevisId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Devis");
                 });
 
@@ -495,9 +497,9 @@ namespace TunavBackend.Migrations
                         new
                         {
                             Id = 5,
-                            Categorie = "IOT",
+                            Categorie = "GPS TRACKER",
                             Description = "Notre smartwatch allie performance et bien-être dans un design moderne et connecté. Équipée d’un écran tactile haute résolution...",
-                            ImagePath = "/assets/img/MedWatch.jpg",
+                            ImagePath = "/assets/img/MedWatch.png",
                             Titre = "MED WATCH"
                         });
                 });
@@ -675,10 +677,10 @@ namespace TunavBackend.Migrations
                         new
                         {
                             Id = 1,
-                            Email = "admin@Tunav.com",
+                            Email = "test@Tunav.com",
                             Nom = "admin1",
                             Password = "TUNAV_ADMIN_123",
-                            Role = 0
+                            Role = 1
                         });
                 });
 
@@ -715,11 +717,21 @@ namespace TunavBackend.Migrations
 
             modelBuilder.Entity("TunavBackend.Models.Devis", b =>
                 {
-                    b.HasOne("TunavBackend.Models.ProduitAvecDevis", null)
+                    b.HasOne("TunavBackend.Models.ProduitAvecDevis", "produitDevis")
                         .WithMany("Devis")
                         .HasForeignKey("ProduitAvecDevisId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("TunavBackend.Models.User", "userDevis")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("produitDevis");
+
+                    b.Navigation("userDevis");
                 });
 
             modelBuilder.Entity("TunavBackend.Models.Franchise", b =>
