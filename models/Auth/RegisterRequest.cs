@@ -8,5 +8,9 @@ namespace TunavBackend.Models.Auth
         public string Email { get; set; } = string.Empty;
         public Role Role { get; set; }
     }
+    public class ForgetPasswordRequest
+    {
+        public required string Email { get; set; }
+    }
     
 }
