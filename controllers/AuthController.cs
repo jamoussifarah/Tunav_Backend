@@ -116,6 +116,25 @@ namespace TunavBackend.Controllers
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
+
+        [HttpPost("forget-password")]
+        public async Task<IActionResult> ForgetPassword([FromBody] ForgetPasswordRequest request)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
+            if (user == null)
+                return NotFound(new { message = "Aucun utilisateur trouvé avec cet email." });
+
+            var newPassword = Guid.NewGuid().ToString("N").Substring(0, 8);
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(newPassword);
+
+            user.Password = hashedPassword;
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Mot de passe réinitialisé", mdp = newPassword });
+        }
+
+
+
     }
     
     
