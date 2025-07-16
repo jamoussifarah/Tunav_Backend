@@ -18,7 +18,7 @@ namespace TunavBackend.Models
 
         public int UserId { get; set; }
         public User? userDevis { get; set; }
-        public int ProduitAvecDevisId { get; set; }
+        public int? ProduitAvecDevisId { get; set; }
         public  ProduitAvecDevis? produitDevis { get; set; }
     }
 
@@ -31,6 +31,6 @@ namespace TunavBackend.Models
         public string Message { get; set; } = string.Empty;
         public int Quantite { get; set; }
         public int UserId { get; set; }
-        public int ProduitAvecDevisId { get; set; }
+        public int? ProduitAvecDevisId { get; set; }
     }
 }
