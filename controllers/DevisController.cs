@@ -47,5 +47,19 @@ namespace TunavBackend.Controllers
             var deleted = await _service.DeleteAsync(id);
             return deleted ? NoContent() : NotFound();
         }
-    }
+
+        [HttpGet("count/IOT")]
+        public async Task<IActionResult> GetNumberDevisWithProduit()
+            {
+                var count = await _service.GetNumberDevisWithProduitAsync();
+                return Ok(new { DevisWithProduit = count });
+            }
+
+        [HttpGet("count/IT")]
+        public async Task<IActionResult> GetNumberDevisWithoutProduit()
+            {
+                var count = await _service.GetNumberDevisWithoutProduitAsync();
+                return Ok(new { DevisWithoutProduit = count });
+            }
+            }
 }
