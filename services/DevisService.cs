@@ -68,6 +68,19 @@ namespace TunavBackend.Services
             await _context.SaveChangesAsync();
             return true;
         }
+         public async Task<int> GetNumberDevisWithProduitAsync()
+        {
+            return await _context.Devis
+                .Where(d => d.ProduitAvecDevisId != null)
+                .CountAsync();
+        }
+
+        public async Task<int> GetNumberDevisWithoutProduitAsync()
+        {
+            return await _context.Devis
+                .Where(d => d.ProduitAvecDevisId == null)
+                .CountAsync();
+        }
         
     }
     

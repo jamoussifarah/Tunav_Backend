@@ -18,12 +18,13 @@ namespace TunavBackend
         public DbSet<ProduitSansDevis> ProduitsSansDevis { get; set; }
         public DbSet<CaracteristiqueProduitSansDevis> CaracteristiquesProduitSansDevis { get; set; }
         public DbSet<Devis> Devis { get; set; }
+        public DbSet<UserStatistics> UserStatistics { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             ProductsSeeder.Seed(modelBuilder);
             BlogsSeeder.Seed(modelBuilder);
-            }
+        }
 
 
     }
