@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TunavBackend.Models;
@@ -50,16 +51,33 @@ namespace TunavBackend.Controllers
 
         [HttpGet("count/IOT")]
         public async Task<IActionResult> GetNumberDevisWithProduit()
-            {
-                var count = await _service.GetNumberDevisWithProduitAsync();
-                return Ok(new { DevisWithProduit = count });
-            }
+        {
+            var count = await _service.GetNumberDevisWithProduitAsync();
+            return Ok(new { DevisWithProduit = count });
+        }
 
         [HttpGet("count/IT")]
         public async Task<IActionResult> GetNumberDevisWithoutProduit()
-            {
-                var count = await _service.GetNumberDevisWithoutProduitAsync();
-                return Ok(new { DevisWithoutProduit = count });
-            }
+        {
+            var count = await _service.GetNumberDevisWithoutProduitAsync();
+            return Ok(new { DevisWithoutProduit = count });
+        }
+            
+        [HttpPatch("{id}/etat")]
+        public async Task<IActionResult> ChangerEtat(int id, [FromBody] JsonElement body)
+        {
+            if (!body.TryGetProperty("etat", out var etatProp))
+                return BadRequest("Le champ 'etat' est requis.");
+
+            if (!Enum.TryParse<EtatDevis>(etatProp.GetString(), out var nouvelEtat))
+                return BadRequest("État invalide.");
+
+            var devis = await _service.ChangerEtatAsync(id, nouvelEtat);
+            if (devis == null)
+                return NotFound();
+
+            return Ok(devis);
+        }
+    
             }
 }
