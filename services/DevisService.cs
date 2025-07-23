@@ -68,7 +68,7 @@ namespace TunavBackend.Services
             await _context.SaveChangesAsync();
             return true;
         }
-         public async Task<int> GetNumberDevisWithProduitAsync()
+        public async Task<int> GetNumberDevisWithProduitAsync()
         {
             return await _context.Devis
                 .Where(d => d.ProduitAvecDevisId != null)
@@ -80,6 +80,18 @@ namespace TunavBackend.Services
             return await _context.Devis
                 .Where(d => d.ProduitAvecDevisId == null)
                 .CountAsync();
+        }
+        
+         public async Task<Devis?> ChangerEtatAsync(int id, EtatDevis nouvelEtat)
+        {
+            var devis = await _context.Devis.FirstOrDefaultAsync(d => d.Id == id);
+            if (devis == null)
+                return null;
+
+            devis.Etat = nouvelEtat;
+            await _context.SaveChangesAsync();
+
+            return devis;
         }
         
     }
